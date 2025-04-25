@@ -1,35 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-dotnet-core
+  name: fromharness-app
+  labels:
+    app: fromharness
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: hello-dotnet-core
-  replicas: 1 
-  template: 
+      app: fromharness
+  template:
     metadata:
       labels:
-        app: hello-dotnet-core
+        app: fromharness
     spec:
       containers:
-      - name: hello-dotnet-core
-        image: naturalorder/fromharness
-        ports:
-        - containerPort: 80
+        - name: fromharness
+          image: naturalorder/fromharness:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          # Optional: if the app needs to run to completion (like a job)
+          # command: ["dotnet", "yourapp.dll"]
 ---
 apiVersion: v1
 kind: Service
 metadata:
- name: hello-dotnet-core
+  name: fromharness-service
 spec:
- type: NodePort
- selector:
-   app: hello-dotnet-core
- ports:
-   - name: client
-     protocol: TCP
-     port: 80
-     nodePort: 32080
- selector:
-   app: hello-dotnet-core
+  selector:
+    app: fromharness
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
