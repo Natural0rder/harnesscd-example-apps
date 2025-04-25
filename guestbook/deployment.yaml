@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fromharness
-          image: naturalorder/fromharness:latest
+          image: naturalorder/fromharness:lab
           imagePullPolicy: Always
           resources:
             limits:
