@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello-dotnet-core
-        image: naturalorder/fromharness:latest
+        image: naturalorder/fromharness
         ports:
         - containerPort: 80
 ---
